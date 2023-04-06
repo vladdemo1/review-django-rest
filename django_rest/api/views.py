@@ -9,7 +9,10 @@ from .models import Task
 
 
 @api_view(['GET'])
-def apiOverview(request):
+def api_overview(request):
+    """
+    Full list about url's api
+    """
     api_urls = {
         'List': '/task-list/',
         'Detail View': '/task-detail/<str:pk>',
@@ -22,21 +25,30 @@ def apiOverview(request):
 
 
 @api_view(['GET'])
-def taskList(request):
+def task_list(request):
+    """
+    Show all tasks
+    """
     tasks = Task.objects.all()
     serializer = TaskSerializer(tasks, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
-def taskDetail(request, pk):
+def task_detail(request, pk):
+    """
+    Show task by pk
+    """
     tasks = Task.objects.get(id=pk)
     serializer = TaskSerializer(tasks, many=False)
     return Response(serializer.data)
 
 
 @api_view(['POST'])
-def taskCreate(request):
+def task_create(request):
+    """
+    Create task
+    """
     serializer = TaskSerializer(data=request.data)
 
     if serializer.is_valid():
@@ -46,7 +58,10 @@ def taskCreate(request):
 
 
 @api_view(['POST'])
-def taskUpdate(request, pk):
+def task_update(request, pk):
+    """
+    Update current task by pk
+    """
     task = Task.objects.get(id=pk)
     serializer = TaskSerializer(instance=task ,data=request.data)
 
@@ -57,7 +72,10 @@ def taskUpdate(request, pk):
 
 
 @api_view(['DELETE'])
-def taskDelete(request, pk):
+def task_delete(request, pk):
+    """
+    Delete task by pk
+    """
     task = Task.objects.get(id=pk)
     task.delete()
 
